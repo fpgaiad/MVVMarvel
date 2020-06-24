@@ -1,9 +1,6 @@
 package com.mvvmarvel.ui
 
-import android.content.Intent
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuInflater
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import com.mvvmarvel.R
@@ -13,7 +10,11 @@ class FavoritesActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_favorites)
 
-        supportActionBar?.title = "Favorites"
+        supportActionBar?.apply {
+            setDisplayHomeAsUpEnabled(true)
+            setDisplayShowHomeEnabled(true)
+            title = "Favorites"
+        }
 
         val charactersFragment = CharactersFragment.newInstance(true)
         supportFragmentManager.beginTransaction().apply {
@@ -22,19 +23,13 @@ class FavoritesActivity : AppCompatActivity() {
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        val inflater = MenuInflater(this)
-        inflater.inflate(R.menu.favorites_menu, menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
-        R.id.action_home -> {
-            Intent(this, MainActivity::class.java).apply {
-                startActivity(this)
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            android.R.id.home -> {
+                finish()
+                true
             }
-            true
+            else -> super.onOptionsItemSelected(item)
         }
-        else -> super.onOptionsItemSelected(item)
     }
 }
