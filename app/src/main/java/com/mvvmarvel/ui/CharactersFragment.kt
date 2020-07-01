@@ -5,61 +5,62 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.mvvmarvel.R
+import com.mvvmarvel.databinding.CharactersFragmentBinding
 import com.mvvmarvel.viewmodel.CharactersViewModel
-import com.mvvmarvel.viewmodel.CharactersViewModelFactory
-import kotlinx.android.synthetic.main.characters_fragment.*
+import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.parameter.parametersOf
 
 class CharactersFragment : Fragment() {
 
-    private lateinit var charactersViewModel: CharactersViewModel
     private lateinit var charactersAdapter: CharactersAdapter
+    private lateinit var binding: CharactersFragmentBinding
+
+    private val viewModel: CharactersViewModel by viewModel {
+        parametersOf(arguments?.getBoolean(IS_FAV))
+    }
 
     companion object {
         private const val IS_FAV = "is_favorite"
 
         fun newInstance(isFavorites: Boolean = false) = CharactersFragment().apply {
-            arguments = Bundle().apply {
-                putBoolean(IS_FAV, isFavorites)
-            }
+            arguments = bundleOf(IS_FAV to isFavorites)
         }
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.characters_fragment, container, false)
+
+        binding = DataBindingUtil.inflate(
+            inflater,
+            R.layout.characters_fragment,
+            container,
+            false
+        )
+        return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        val charactersViewModelFactory =
-            CharactersViewModelFactory(arguments?.getBoolean(IS_FAV) ?: false)
+        val orientation = activity?.resources?.configuration?.orientation
+        binding.rvCharacters.layoutManager = GridLayoutManager(context, getSpanCount(orientation))
 
-        charactersViewModel = ViewModelProvider(this, charactersViewModelFactory)
-            .get(CharactersViewModel::class.java)
-        charactersViewModel.getCharacters().observe(viewLifecycleOwner, Observer {
-            charactersAdapter.notifyDataSetChanged()
+        viewModel.characters.observe(viewLifecycleOwner, Observer { marvelCharacters ->
+            charactersAdapter = CharactersAdapter(context, marvelCharacters)
+            binding.rvCharacters.adapter = charactersAdapter
+            binding.progressBarCharacList.visibility = View.GONE
         })
 
-        charactersAdapter = CharactersAdapter(
-            context,
-            charactersViewModel.getCharacters().value ?: emptyList()
-        )
-
-        rv_characters.apply {
-            adapter = charactersAdapter
-            layoutManager = GridLayoutManager(
-                context,
-                getSpanCount(activity?.resources?.configuration?.orientation)
-            )
-        }
+        fetchCharacters()
     }
 
     private fun getSpanCount(orientation: Int?): Int {
@@ -67,5 +68,10 @@ class CharactersFragment : Fragment() {
             Configuration.ORIENTATION_LANDSCAPE -> 3
             else -> 2
         }
+    }
+
+    private fun fetchCharacters() {
+        viewModel.getCharacters()
+        binding.progressBarCharacList.visibility = View.VISIBLE
     }
 }

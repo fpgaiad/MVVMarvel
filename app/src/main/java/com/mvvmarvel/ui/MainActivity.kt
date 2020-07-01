@@ -6,26 +6,25 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
-import android.widget.SearchView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
 import com.mvvmarvel.R
+import com.mvvmarvel.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
-
-    lateinit var searchView: SearchView
+    private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
-        supportActionBar?.title = "Marvel"
+        supportActionBar?.title = getString(R.string.marvel)
 
-        searchView = findViewById(R.id.sv_main)
-        searchView.visibility = View.GONE
+        binding.searchViewMain.visibility = View.GONE
 
         val charactersFragment = CharactersFragment.newInstance(false)
         supportFragmentManager.beginTransaction().apply {
-            replace(R.id.fl_fragment_container_main, charactersFragment)
+            replace(binding.flFragmentContainerMain.id, charactersFragment)
             commit()
         }
     }
@@ -44,12 +43,10 @@ class MainActivity : AppCompatActivity() {
             true
         }
         R.id.action_search -> {
-            when (searchView.visibility) {
-                View.VISIBLE -> searchView.visibility = View.GONE
-                View.GONE -> {
-                    searchView.apply {
-                        visibility = View.VISIBLE
-                    }
+            binding.apply {
+                when (searchViewMain.visibility) {
+                    View.VISIBLE -> searchViewMain.visibility = View.GONE
+                    View.GONE -> searchViewMain.visibility = View.VISIBLE
                 }
             }
             true

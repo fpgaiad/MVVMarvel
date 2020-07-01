@@ -4,14 +4,15 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.mvvmarvel.R
-import com.mvvmarvel.model.Result
+import com.mvvmarvel.data.model.MarvelCharacter
 
 class CharactersAdapter(
     var context: Context?,
-    var characters: List<Result>
+    var marvelCharacters: List<MarvelCharacter>
 ) : RecyclerView.Adapter<CharactersAdapter.CharactersViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CharactersViewHolder {
@@ -21,16 +22,21 @@ class CharactersAdapter(
     }
 
     override fun getItemCount(): Int {
-        return characters.size
+        return marvelCharacters.size
     }
 
     override fun onBindViewHolder(holder: CharactersViewHolder, position: Int) {
-        val character = characters[position]
+        val character = marvelCharacters[position]
 
         holder.name.text = character.name
+        holder.favoriteIcon.setOnClickListener {
+
+        }
+
     }
 
     class CharactersViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val name: TextView = view.findViewById(R.id.tv_name)
+        val favoriteIcon: ImageView = view.findViewById(R.id.iv_favorite)
     }
 }
