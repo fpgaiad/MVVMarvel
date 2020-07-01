@@ -16,6 +16,7 @@
 
 # Marvel API file
 marvel_api_secrets.xml
+gradle.properties
 
 # Files for the ART/Dalvik VM
 *.dex

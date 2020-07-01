@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">MVVMarvel</string>
-    <string name="favorites">Favorites</string>
     <string name="home">Home</string>
     <string name="search">Search</string>
+    <string name="favorites">Favorites</string>
+    <string name="marvel">Marvel</string>
 </resources>
