@@ -1,7 +1,7 @@
 # MVVMarvel
 
 Projeto com [API da Marvel](https://developer.marvel.com/) utilizando:
-* Arquitetura Clean MVVM;
+* MVVM;
 * Koin;
 * Room;
 * ViewModel;
