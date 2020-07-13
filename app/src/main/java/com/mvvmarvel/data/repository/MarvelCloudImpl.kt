@@ -9,9 +9,11 @@ import io.reactivex.schedulers.Schedulers
 
 class MarvelCloudImpl : MarvelCloud {
 
-    override fun getCharacters(): Single<MarvelResponse> {
-        return MarvelApi.getCharacters(ORDER_BY, TIME_STAMP, PUBLIC_KEY, HASH)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
+    override fun getCharacters(offset: Int): Single<MarvelResponse> {
+        return MarvelApi.getCharacters(offset, ORDER_BY, TIME_STAMP, PUBLIC_KEY, HASH)
+    }
+
+    override fun getCharactersByQuery(query: String, offset: Int): Single<MarvelResponse> {
+        return  MarvelApi.getCharactersByQuery(query, offset, ORDER_BY, TIME_STAMP, PUBLIC_KEY, HASH)
     }
 }

@@ -5,5 +5,7 @@ import io.reactivex.Single
 
 interface MarvelCloud {
 
-    fun getCharacters(): Single<MarvelResponse>
+    fun getCharacters(offset: Int): Single<MarvelResponse>
+
+    fun getCharactersByQuery(query: String, offset: Int): Single<MarvelResponse>
 }
