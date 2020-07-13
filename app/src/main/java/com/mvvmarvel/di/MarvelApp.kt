@@ -1,4 +1,4 @@
-package com.mvvmarvel
+package com.mvvmarvel.di
 
 import android.app.Application
 import com.mvvmarvel.di.viewModelModule

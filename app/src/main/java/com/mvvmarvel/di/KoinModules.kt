@@ -14,10 +14,10 @@ val viewModelModule = module {
     single<MarvelCloud> { MarvelCloudImpl() }
     single<FavoriteDao> { FavoriteDatabase.getInstance(context = get()).favoriteDao() }
     single<MarvelRepository> { MarvelRepositoryImpl(cloud = get(), store = get()) }
-    viewModel { (isFavorite: Boolean) ->
+    viewModel { (isFavActivity: Boolean) ->
         CharactersViewModel(
             repository = get(),
-            isFavorite = isFavorite
+            isFavoriteScreen = isFavActivity
         )
     }
 }
