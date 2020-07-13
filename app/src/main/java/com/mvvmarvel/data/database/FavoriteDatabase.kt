@@ -10,7 +10,7 @@ private const val DATABASE = "favorites"
 
 @Database(
     entities = [MarvelCharacter::class],
-    version = 4,
+    version = 5,
     exportSchema = false
 )
 abstract class FavoriteDatabase : RoomDatabase() {
