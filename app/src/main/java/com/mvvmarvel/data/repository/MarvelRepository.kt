@@ -1,16 +1,20 @@
 package com.mvvmarvel.data.repository
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import com.mvvmarvel.data.model.MarvelResponse
 import com.mvvmarvel.data.model.MarvelCharacter
+import com.mvvmarvel.data.model.MarvelResponse
 import io.reactivex.Single
 
 interface MarvelRepository {
 
-    fun getCharacters(): Single<MarvelResponse>
+    fun getCharacters(offset: Int): Single<MarvelResponse>
 
-    suspend fun getFavorites(): MutableLiveData<List<MarvelCharacter>>
+    fun getCharactersByQuery(query: String, offset: Int): Single<MarvelResponse>
 
-    suspend fun saveFavorite(character: MarvelCharacter)
+    suspend fun getFavorite(id: Int): MarvelCharacter
+
+    suspend fun getFavorites(): List<MarvelCharacter>
+
+    suspend fun saveFavorite(character: MarvelCharacter): Long
+
+    suspend fun deleteFavorite(character: MarvelCharacter): Int
 }
