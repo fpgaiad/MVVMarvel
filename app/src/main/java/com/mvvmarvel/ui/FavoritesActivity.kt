@@ -30,6 +30,7 @@ class FavoritesActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             android.R.id.home -> {
+                setResult(RESULT_OK, intent)
                 finish()
                 true
             }

@@ -4,4 +4,5 @@
     <string name="search">Search</string>
     <string name="favorites">Favorites</string>
     <string name="marvel">Marvel</string>
+    <string name="empty_list_message">Your list is empty! No items to show! :(</string>
 </resources>
